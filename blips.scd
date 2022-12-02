@@ -9,10 +9,9 @@ SynthDef(\blips, {
 	sig = Pan2.ar(sig, pan);
 	sig = FreeVerb.ar(sig * env, verb * (1 - viber), verb * 2);
 	Out.ar(0, sig * amp * 0.25);
-}).add
-);
+}).add;
 
-(
+
 SynthDef(\click, {
 	arg r=0.125, amp=1, pan=0, modF = 1000, filter=5000, bw=4;
 	var sig = SinOsc.ar(modF * WhiteNoise.ar(amp * 10));
@@ -20,19 +19,15 @@ SynthDef(\click, {
 	sig = BBandPass.ar(sig, filter * Line.ar(1,0.5,0.125),bw);
 	sig = Pan2.ar(sig * 0.3, pan, env);
 	Out.ar(0, sig);
-}).add
-);
+}).add;
 
-(
 SynthDef(\kick, {
 	arg v = 1;
 	var sig = SinOsc.ar(80 * Line.kr(1, 0.1, 1/4, doneAction: 2), mul:6);
 	sig = BLowPass.ar(Pan2.ar(sig), 500 * Line.kr(1,0.1,1/4, doneAction: 2), 3);
 	Out.ar(0, sig * 0.3 * v * Line.kr(1, 0, 1/4, doneAction: 2));
-}).add
-);
+}).add;
 
-(
 SynthDef(\bass, {
 	arg freq=60, gate=1, phs=1;
 	var sig=VarSaw.ar(freq, width: 1);
@@ -59,10 +54,8 @@ a = Pdef(
 		\vibRate, Pwhite(0,6.1),
 		\vibAmt, Pwhite(0.1, 1.1),
 	)
-)
 );
 
-(
 b = Pdef(
 	\hatdef,
 	Pbind(
@@ -73,10 +66,8 @@ b = Pdef(
 		\pan, Pwhite(-0.5, 0.5),
 
 	)
-)
 );
 
-(
 c = Pdef(
 	\snaredef,
 	Pbind(
@@ -88,10 +79,8 @@ c = Pdef(
 		\dur, 1/2,
 		\bw, 6,
 	)
-)
 );
 
-(
 d = Pdef(
 	\bassdef,
 	Pbind(
@@ -110,20 +99,16 @@ d = Pdef(
 		], inf),
 		\phs, Pwhite(0.02, 0.1),
 	)
-)
 );
 
-(
 e = Pdef(
 	\kickdef,
 	Pbind(
 		\instrument, \kick,
 		\dur, 2,
 	)
-)
 );
 
-(
 f = Pdef(
 	\kickdef2,
 	Pbind(
@@ -133,10 +118,8 @@ f = Pdef(
 		], inf),
 		\dur, 1/8
 	)
-)
 );
 
-(
 g = Pdef(
 	\hataccent,
 	Pbind(
@@ -218,7 +201,7 @@ g.stop;
 )
 
 d.play
-
+q.stop
 (
 x = Routine ({
 	var z=1;
@@ -231,6 +214,7 @@ x = Routine ({
 			a.stop;
 			a.set(\amp, 1);
 			"fin".postln;
+			q.stop;
 			x.stop;
 		}
 	})
